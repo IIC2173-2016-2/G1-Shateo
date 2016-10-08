@@ -32,6 +32,9 @@ class App extends Component {
   }
 
   handleOnChangeSelectedRoom(room) {
+    Rooms.update(room._id, {
+      $addToSet: { users: this.props.currentUser._id },
+    });
     this.setState({ selected_chat_room: room })
   }
 
@@ -60,7 +63,7 @@ class App extends Component {
               GeoChat
             </li>
             <li>
-              {this.props.currentUser ? this.props.currentUser.name : <AccountsUIWrapper />}
+              {this.props.currentUser ? this.props.currentUser.username : <AccountsUIWrapper />}
             </li>
           	<RoomList onClickChatRoom={this.handleOnChangeSelectedRoom} rooms={this.props.rooms}/>
           </ul>

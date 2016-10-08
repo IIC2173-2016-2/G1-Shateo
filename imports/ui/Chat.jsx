@@ -69,7 +69,7 @@ class Chat extends Component {
           </Col>
           <Col md={3} className="chat_user_list hidden-xs hidden-sm">
             <ul className="user-list">
-              {this.props.room.users.map((user) => <UserListItem user={user} key={user}/>)}
+              {this.props.room.users.map((user) => <UserListItem userId={user} key={user}/>)}
             </ul>
           </Col>
       </div>
