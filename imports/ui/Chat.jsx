@@ -6,6 +6,7 @@ import moment from 'moment'
 import { createContainer } from 'meteor/react-meteor-data';
 import './css/Chat.css'
 import { Messages } from './../api/messages.js'
+import { Meteor } from 'meteor/meteor'
 
 class Chat extends Component {
 
@@ -20,10 +21,6 @@ class Chat extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentWillUnmount() {
-    this.unsuscribeListeners()
-  }
-
   handleChange(e) {
     this.setState({ input: e.target.value });
   }
@@ -31,10 +28,11 @@ class Chat extends Component {
   handleSendMessage(e) {
     e.preventDefault()
     Messages.insert({
-      room_id: this.props.room_id,
+      roomId: this.props.room._id,
       text: this.state.input,
-      createdAt: new Date(), // current time
-    });
+      createdAt: new Date(),
+      userId: this.props.currentUser._id
+    })
     this.setState({ input: '' });
   }
 
@@ -83,8 +81,9 @@ Chat.PropTypes = {
   room: React.PropTypes.object.isRequired,
 }
 
-export default createContainer(() => {
+export default createContainer((props) => {
   return {
-    messages: Messages.find({}).fetch()
+    messages: Messages.find({ roomId: props.room._id }).fetch(),
+    currentUser: Meteor.user()
   }
 }, Chat)

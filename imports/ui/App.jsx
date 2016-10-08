@@ -6,6 +6,8 @@ import './css/App.css'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Rooms } from '../api/rooms.js'
 import Room from './Room.jsx'
+import AccountsUIWrapper from './AccountsUIWrapper.jsx'
+import { Meteor } from 'meteor/meteor'
 
 class App extends Component {
   constructor(props) {
@@ -58,7 +60,7 @@ class App extends Component {
               GeoChat
             </li>
             <li>
-              Usuario #123
+              {this.props.currentUser ? this.props.currentUser.name : <AccountsUIWrapper />}
             </li>
           	<RoomList onClickChatRoom={this.handleOnChangeSelectedRoom} rooms={this.props.rooms}/>
           </ul>
@@ -77,6 +79,7 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    rooms: Rooms.find({}).fetch()
+    rooms: Rooms.find({}).fetch(),
+    currentUser: Meteor.user()
   }
 }, App)
