@@ -1,0 +1,36 @@
+.Room {
+  background-color: #434753;
+  color: #ffffff;
+  border: 0px;
+}
+button.list-group-item .list-group-item-heading {
+  color: #ffffff;
+}
+
+button.list-group-item:hover, button.list-group-item:focus,
+button.list-group-item:active {
+  background-color: #696c75;
+}
+.Room p {
+  color: #E5F0F5;
+}
+.Room-logo {
+  animation: Room-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.Room-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.Room-intro {
+  font-size: large;
+}
+
+@keyframes Room-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

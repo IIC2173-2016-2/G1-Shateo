@@ -1,0 +1,32 @@
+.messages .message {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: all 0.5s linear;
+}
+
+.message-user-name {
+  margin-left: 15px;
+}
+
+.messages .message .user-name {
+}
+.message-user-name small {
+  color: #c9cdd9;
+}
+.messages .message .text {
+    color: #ffffff;
+}
+.messages .message .text-wrapper {
+    background-color: #62BF6E;
+    width: 100%;
+    clear: both;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 100px;
+    position: relative;
+}
+.messages .message .text-wrapper .text {
+    font-size: 18px;
+    font-weight: 300;
+}

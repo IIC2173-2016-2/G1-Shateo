@@ -1,0 +1,61 @@
+.Chat {
+
+}
+.user-list {
+	padding-left: 0px;
+}
+/* http://bootsnipp.com/snippets/ZlkBn */
+.messages {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	list-style: none;
+	padding: 10px 10px 0 10px;
+	margin: 0;
+	overflow-y: auto;
+	bottom: 67px;
+	background-color: #f1f5f8;
+	box-shadow: inset 0 0px 30px rgba(0, 0, 0, 0.1);
+	top: 69px;
+}
+.messages ul {
+	padding-left: 0px;
+}
+.chat_top {
+	background-color: #fff;
+  width: 100%;
+  padding: 15px 0 15px;
+  box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 4px 0px 0px 0px;
+}
+.chat_box {
+	padding: 10px;
+	border-radius: 3px;
+	background-color: transparent;
+	height: 100%;
+	margin-left: -1px;
+}
+.chat_input {
+	position: absolute;
+  bottom: 0px;
+	width: 100%;
+	background-color: #fff;
+	border-radius: 0px 0px 0px 4px;
+	padding: 10px 15px;
+	border-top: 1px solid #e7e7e7;
+}
+.chat_input .form-group {
+	margin-bottom: 0px;
+}
+.chat_messages {
+	height: 100%;
+}
+.chat_user_list {
+	margin-left: -1px;
+	background-color: #ffffff;
+	height: 100%;
+	overflow-y: auto;
+	border-left: 1px solid #e7e7e7;
+	border-radius: 0px 4px 4px 0px;
+}

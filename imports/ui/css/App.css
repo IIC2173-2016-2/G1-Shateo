@@ -1,0 +1,122 @@
+.App {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	background-color: #434753;
+}
+
+.sidebar-nav {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+	color: #ffffff;
+}
+
+.sidebar-wrapper {
+  z-index: 1000;
+  height: 100%;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 24px;
+    line-height: 60px;
+}
+
+.chat_space {
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-position: center center;
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.full_height {
+	height: 100%;
+	overflow-y: auto;
+}
+
+
+/* CSS declarations go here */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+  height: 3000px;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+.col-md-9, .col-md-3, .col-md-12, .col-xs-9, .col-xs-3, .col-xs-12  {
+	padding: 0px;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.list-group-item:last-child {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.btn-morado {
+  color: #ffffff;
+  background-color: #434753;
+  border-color: #434753;
+}
+
+.btn-morado:hover,
+.btn-morado:focus,
+.btn-morado:active,
+.btn-morado.active,
+.open .dropdown-toggle.btn-morado {
+  color: #ffffff;
+  background-color: #696C75;
+  border-color: #434753;
+}
+
+.btn-morado:active,
+.btn-morado.active,
+.open .dropdown-toggle.btn-morado {
+  background-image: none;
+}
+
+.btn-morado.disabled,
+.btn-morado[disabled],
+fieldset[disabled] .btn-morado,
+.btn-morado.disabled:hover,
+.btn-morado[disabled]:hover,
+fieldset[disabled] .btn-morado:hover,
+.btn-morado.disabled:focus,
+.btn-morado[disabled]:focus,
+fieldset[disabled] .btn-morado:focus,
+.btn-morado.disabled:active,
+.btn-morado[disabled]:active,
+fieldset[disabled] .btn-morado:active,
+.btn-morado.disabled.active,
+.btn-morado[disabled].active,
+fieldset[disabled] .btn-morado.active {
+  background-color: #434753;
+  border-color: #434753;
+}
+
+.btn-morado .badge {
+  color: #434753;
+  background-color: #ffffff;
+}

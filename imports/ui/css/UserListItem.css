@@ -1,0 +1,17 @@
+.user-list-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #dddddd;
+}
+.user-state {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #f5886e;
+  float: left;
+}
+.user-name {
+  display: inline-block;
+  position: relative;
+  margin-left: 10px;
+}
