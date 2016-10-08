@@ -42,6 +42,14 @@ class Chat extends Component {
         <Col xs={12} md={9} className="chat_messages">
           <div className="chat_top">
             <h4>{this.props.room.name}</h4>
+            <div className="btns-chat-top">
+              <button className="btn btn-default btn-chat-top">
+                <i className="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <button className="btn btn-default btn-chat-top">
+                <i className="fa fa-sign-out" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
           <div className="messages" ref="messages">
             <ul>
