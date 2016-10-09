@@ -13,7 +13,7 @@ class UserListItem extends Component {
     return (
       <li className="user-list-item">
         <div className={classNames("user-state ", (this.props.online ? "bg-success" : "bg-danger"))}></div>
-        <div className="user-name">{this.props.user.username}</div>
+        <div className="user-name">{this.props.user.emails[0].address}</div>
       </li>
     )
   }

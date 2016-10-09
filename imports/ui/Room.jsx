@@ -11,7 +11,7 @@ class Room extends Component {
   render() {
     return (
       <ListGroupItem header={this.props.room.name} className="Room" onClick={() => this.props.onClick(this.props.room)}>
-        {this.props.room.name}
+        {this.props.room.users.length} {this.props.room.users.length == 1 ? 'Usuario' : 'Usuarios'}
       </ListGroupItem>
     )
   }

@@ -13,7 +13,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected_chat_room: undefined
+      selected_chat_room_id: undefined
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
   }
@@ -31,11 +31,10 @@ class App extends Component {
 
   handleOnChangeSelectedRoom(room) {
     Meteor.call('rooms.addUser', room._id)
-    this.setState({ selected_chat_room: room })
+    this.setState({ selected_chat_room_id: room._id })
   }
 
   render() {
-    console.dir(this.props.currentUser)
     var tooltip = <Tooltip id="tooltip"></Tooltip>
     if(this.props.currentUser && this.props.currentUser.location) {
        tooltip = <Tooltip id="tooltip">Lat: {this.props.currentUser.location.coordinates[0].toFixed(2)} Lng: {this.props.currentUser.location.coordinates[1].toFixed(2)}</Tooltip>
@@ -71,7 +70,7 @@ class App extends Component {
             </ul>
         </Col>
         <Col xs={8} md={9} className="full_height chat_space" style={chatStyle}>
-        	{this.state.selected_chat_room ? <Chat room={this.state.selected_chat_room} /> : ''}
+        	{this.state.selected_chat_room_id ? <Chat roomId={this.state.selected_chat_room_id} /> : ''}
         </Col>
       </div>
     )

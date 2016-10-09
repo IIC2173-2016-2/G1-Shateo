@@ -31,6 +31,16 @@ Meteor.methods({
     }
     Rooms.remove(roomId)
   },
+  'rooms.updateName'(roomId, newName) {
+    check(roomId, String)
+    check(newName, String)
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized')
+    }
+    Rooms.update(roomId, {
+      $set: { name: newName },
+    })
+  },
   'rooms.addUser'(roomId) {
     check(roomId, String)
     check(roomId, String)

@@ -4,6 +4,9 @@
 .user-list {
 	padding-left: 0px;
 }
+.edit-name-chat {
+	width: inherit;
+}
 /* http://bootsnipp.com/snippets/ZlkBn */
 .messages {
 	position: absolute;
