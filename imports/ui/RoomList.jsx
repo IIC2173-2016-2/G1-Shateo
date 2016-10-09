@@ -9,10 +9,7 @@ class RoomList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      user_rooms: [],
-      rooms: []
-    }
+    this.state = { }
     this.handleClickNewRoom = this.handleClickNewRoom.bind(this)
     this.handleClickGlobalRoom = this.handleClickGlobalRoom.bind(this)
   }
@@ -26,20 +23,20 @@ class RoomList extends Component {
   }
 
   handleClickGlobalRoom(room) {
-
+    Meteor.call('rooms.addUser', room._id)
   }
 
   render() {
     return (
       <div className="RoomList">
         <Button className="btn-morado" block onClick={this.handleClickNewRoom}>Nuevo Chat</Button>
-        <h3>Participando ({ this.props.rooms.length })</h3>
+        <h3>Participando ({ this.props.currentUser.rooms.length })</h3>
         <ListGroup>
-          {this.props.rooms.map((room) => <Room room={room} key={room._id} onClick={this.props.onClickChatRoom.bind(room)}/>) }
+          {this.props.currentUser.rooms.map((roomId) => <Room roomId={roomId} key={roomId} onClick={this.props.onClickChatRoom.bind(roomId)}/>) }
         </ListGroup>
         <h3>Cercanos ({ this.props.nearRooms.length })</h3>
         <ListGroup>
-          {this.props.nearRooms.map((room) => <Room room={room} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
+          {this.props.nearRooms.map((room) => <Room roomId={room._id} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
         </ListGroup>
       </div>
     );
@@ -49,7 +46,6 @@ class RoomList extends Component {
 RoomList.PropTypes = {
   currentUser: React.PropTypes.object.isRequired,
   onClickChatRoom: React.PropTypes.func.isRequired,
-  rooms: React.PropTypes.array.isRequired,
   nearRooms: React.PropTypes.array.isRequired
 }
 
@@ -57,17 +53,6 @@ export default createContainer(() => {
   var user = Meteor.user()
   return {
     currentUser: user,
-    rooms: Rooms.find({}).fetch(),
-    nearRooms: Rooms.find({
-      location: {
-        $near: {
-           $geometry: {
-              type: 'Point' ,
-              coordinates: [ user.location.coordinates[0], user.location.coordinates[1] ]
-           },
-           $minDistance: 1000
-        }
-      }
-    }).fetch()
+    nearRooms: Rooms.find({}).fetch()
   }
 }, RoomList)

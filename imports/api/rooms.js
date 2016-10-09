@@ -48,7 +48,10 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized')
     }
     Rooms.update(roomId, {
-      $addToSet: { users: this.userId },
+      $addToSet: { users: this.userId }
+    })
+    Meteor.users.update(this.userId, {
+      $addToSet: { rooms: this.roomId }
     })
   }
 })

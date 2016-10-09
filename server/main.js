@@ -8,7 +8,8 @@ Accounts.onCreateUser(function(options, user) {
   if (options.location) {
     user.location = options.location
   }
-  return user;
+  user.rooms = []
+  return user
 })
 
 Meteor.startup(() => {

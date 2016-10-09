@@ -29,9 +29,8 @@ class App extends Component {
     }
   }
 
-  handleOnChangeSelectedRoom(room) {
-    Meteor.call('rooms.addUser', room._id)
-    this.setState({ selected_chat_room_id: room._id })
+  handleOnChangeSelectedRoom(roomId) {
+    this.setState({ selected_chat_room_id: roomId })
   }
 
   render() {

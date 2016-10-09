@@ -3,7 +3,7 @@ import Message from './Message.jsx'
 import UserListItem from './UserListItem.jsx'
 import { FormControl, FormGroup, InputGroup, Button, Col } from 'react-bootstrap'
 import moment from 'moment'
-import { createContainer } from 'meteor/react-meteor-data';
+import { createContainer } from 'meteor/react-meteor-data'
 import './css/Chat.css'
 import { Messages } from './../api/messages.js'
 import { Rooms } from './../api/rooms.js'
