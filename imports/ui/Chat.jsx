@@ -27,12 +27,7 @@ class Chat extends Component {
 
   handleSendMessage(e) {
     e.preventDefault()
-    Messages.insert({
-      roomId: this.props.room._id,
-      text: this.state.input,
-      createdAt: new Date(),
-      userId: this.props.currentUser._id
-    })
+    Meteor.call('messages.new', this.props.room._id, this.state.input)
     this.setState({ input: '' });
   }
 

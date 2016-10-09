@@ -13,8 +13,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      latitude: '',
-      longitude: '',
       selected_chat_room: undefined
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
@@ -22,34 +20,38 @@ class App extends Component {
 
   componentWillMount() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition( (position) => {
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          })
-        }, (errorCode) => alert(errorCode) );
+        navigator.geolocation.getCurrentPosition((position) => {
+          Meteor.call('users.update_location',
+            position.coords.latitude, position.coords.longitude,
+            (errorCode) => this.forceUpdate()
+          )
+        }, (errorCode) => alert(errorCode) )
     }
   }
 
   handleOnChangeSelectedRoom(room) {
-    Rooms.update(room._id, {
-      $addToSet: { users: this.props.currentUser._id },
-    });
+    Meteor.call('rooms.addUser', room._id)
     this.setState({ selected_chat_room: room })
   }
 
   render() {
+    console.dir(this.props.currentUser)
     var tooltip = <Tooltip id="tooltip"></Tooltip>
-    if(this.state.latitude) {
-       tooltip = <Tooltip id="tooltip">Lat: {this.state.latitude.toFixed(2)} Lng: {this.state.longitude.toFixed(2)}</Tooltip>
+    if(this.props.currentUser && this.props.currentUser.location) {
+       tooltip = <Tooltip id="tooltip">Lat: {this.props.currentUser.location.coordinates[0].toFixed(2)} Lng: {this.props.currentUser.location.coordinates[1].toFixed(2)}</Tooltip>
     }
-    // TODO
     var chatStyle = { }
-    if(this.state.latitude !== '' && this.state.longitude !== '') {
-      var latLng = this.state.latitude + "," + this.state.longitude
+    if(this.props.currentUser && this.props.currentUser.location) {
+      var latLng = this.props.currentUser.location.coordinates[0] + "," + this.props.currentUser.location.coordinates[1]
       chatStyle = {
         backgroundImage: "url('https://maps.googleapis.com/maps/api/staticmap?center=" + latLng + "&size=512x512&zoom=11&scale=2&maptype=satellite&markers=color:blue||" + latLng + "')"
       }
+    }
+    var roomList
+    if(this.props.currentUser && this.props.currentUser.location) {
+      roomList = <RoomList onClickChatRoom={this.handleOnChangeSelectedRoom}/>
+    } else {
+      roomList = <li>Cargando ubicación ...</li>
     }
     return (
       <div className="App">
@@ -62,11 +64,11 @@ class App extends Component {
               &nbsp;
               GeoChat
             </li>
-            <li>
-              {this.props.currentUser ? this.props.currentUser.username : <AccountsUIWrapper />}
-            </li>
-          	<RoomList onClickChatRoom={this.handleOnChangeSelectedRoom} rooms={this.props.rooms}/>
-          </ul>
+            {
+              this.props.currentUser == undefined ?
+              <AccountsUIWrapper /> : roomList
+            }
+            </ul>
         </Col>
         <Col xs={8} md={9} className="full_height chat_space" style={chatStyle}>
         	{this.state.selected_chat_room ? <Chat room={this.state.selected_chat_room} /> : ''}
@@ -77,12 +79,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-  rooms: PropTypes.array.isRequired,
 }
 
 export default createContainer(() => {
+  Meteor.subscribe('messages')
+  Meteor.subscribe('rooms')
+  Meteor.subscribe('userData')
+
   return {
-    rooms: Rooms.find({}).fetch(),
-    currentUser: Meteor.user()
+    currentUser: Meteor.user() || undefined
   }
 }, App)

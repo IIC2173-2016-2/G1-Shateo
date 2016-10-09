@@ -18,7 +18,7 @@ class Room extends Component {
 }
 
 Room.PropTypes = {
-  bsRecord: React.PropTypes.string.isRequired,
+  room: React.PropTypes.object.isRequired,
   onClick: React.PropTypes.func.isRequired
 }
 

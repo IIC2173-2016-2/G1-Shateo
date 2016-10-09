@@ -6,7 +6,7 @@ import { Blaze } from 'meteor/blaze';
 export default class AccountsUIWrapper extends Component {
   componentDidMount() {
     // Use Meteor Blaze to render login buttons
-    this.view = Blaze.render(Template.loginButtons,
+    this.view = Blaze.render(Template.atForm,
       ReactDOM.findDOMNode(this.refs.container));
   }
   componentWillUnmount() {

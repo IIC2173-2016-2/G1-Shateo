@@ -22,11 +22,7 @@ class RoomList extends Component {
   }
 
   handleClickNewRoom() {
-    Rooms.insert({
-      name: 'nombre',
-      createdAt: new Date(), // current time
-      users: []
-    });
+    Meteor.call('rooms.new', 'Nombre de prueba')
   }
 
   handleClickGlobalRoom(room) {
@@ -41,9 +37,9 @@ class RoomList extends Component {
         <ListGroup>
           {this.props.rooms.map((room) => <Room room={room} key={room._id} onClick={this.props.onClickChatRoom.bind(room)}/>) }
         </ListGroup>
-        <h3>Cercanos ({ this.props.rooms.length })</h3>
+        <h3>Cercanos ({ this.props.nearRooms.length })</h3>
         <ListGroup>
-          {this.props.rooms.map((room) => <Room room={room} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
+          {this.props.nearRooms.map((room) => <Room room={room} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
         </ListGroup>
       </div>
     );
@@ -51,8 +47,27 @@ class RoomList extends Component {
 }
 
 RoomList.PropTypes = {
+  currentUser: React.PropTypes.object.isRequired,
   onClickChatRoom: React.PropTypes.func.isRequired,
-  rooms: React.PropTypes.array.isRequired
+  rooms: React.PropTypes.array.isRequired,
+  nearRooms: React.PropTypes.array.isRequired
 }
 
-export default RoomList;
+export default createContainer(() => {
+  var user = Meteor.user()
+  return {
+    currentUser: user,
+    rooms: Rooms.find({}).fetch(),
+    nearRooms: Rooms.find({
+      location: {
+        $near: {
+           $geometry: {
+              type: 'Point' ,
+              coordinates: [ user.location.coordinates[0], user.location.coordinates[1] ]
+           },
+           $minDistance: 1000
+        }
+      }
+    }).fetch()
+  }
+}, RoomList)
