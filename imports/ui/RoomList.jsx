@@ -22,8 +22,8 @@ class RoomList extends Component {
     Meteor.call('rooms.new', 'Nombre de prueba')
   }
 
-  handleClickGlobalRoom(room) {
-    Meteor.call('rooms.addUser', room._id)
+  handleClickGlobalRoom(roomId) {
+    Meteor.call('rooms.addUser', roomId)
   }
 
   render() {
@@ -32,7 +32,7 @@ class RoomList extends Component {
         <Button className="btn-morado" block onClick={this.handleClickNewRoom}>Nuevo Chat</Button>
         <h3>Participando ({ this.props.currentUser.rooms.length })</h3>
         <ListGroup>
-          {this.props.currentUser.rooms.map((roomId) => <Room roomId={roomId} key={roomId} onClick={this.props.onClickChatRoom.bind(roomId)}/>) }
+          {this.props.currentUser.rooms.map((roomId) => <Room roomId={roomId} key={roomId} onClick={this.props.onClickChatRoom}/>) }
         </ListGroup>
         <h3>Cercanos ({ this.props.nearRooms.length })</h3>
         <ListGroup>

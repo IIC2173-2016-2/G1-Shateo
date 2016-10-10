@@ -7,8 +7,13 @@
   height: 20px;
   border-radius: 50%;
   display: inline-block;
-  background-color: #f5886e;
   float: left;
+}
+.bg-online {
+  background-color: #6a9170;
+}
+.bg-offline {
+  background-color: #ff7f66;
 }
 .user-name {
   display: inline-block;

@@ -4,11 +4,20 @@ import { check } from 'meteor/check'
 
 if (Meteor.isServer) {
   Meteor.publish('userData', function () {
-    if (this.userId) {
-      return Meteor.users.find(this.userId)
-    } else {
-      this.ready()
+    this.ready()
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized')
     }
+    return Meteor.users.find(this.userId)
+  })
+  Meteor.publish('allUserData', function () {
+    return Meteor.users.find({}, {
+      fields: {
+        'status': 1,
+        'emails': 1,
+        'location': 1
+      }
+    })
   })
 }
 
@@ -25,7 +34,7 @@ Meteor.methods({
     {
       $set: {
         location: {
-            type: "Point",
+            type: 'Point',
             coordinates: [latitude, longitude]
          },
       }

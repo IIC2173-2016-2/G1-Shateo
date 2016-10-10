@@ -6,13 +6,12 @@ import { createContainer } from 'meteor/react-meteor-data';
 class UserListItem extends Component {
   constructor(props) {
     super(props)
-    this.props.online = true
   }
 
   render() {
     return (
       <li className="user-list-item">
-        <div className={classNames("user-state ", (this.props.online ? "bg-success" : "bg-danger"))}></div>
+        <div className={classNames("user-state ", (this.props.user.status.online ? "bg-online" : "bg-offline"))}></div>
         <div className="user-name">{this.props.user.emails[0].address}</div>
       </li>
     )
@@ -20,7 +19,7 @@ class UserListItem extends Component {
 }
 
 UserListItem.PropTypes = {
-  user: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired
 }
 
 export default createContainer((props) => {

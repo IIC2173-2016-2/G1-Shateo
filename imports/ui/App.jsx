@@ -16,6 +16,7 @@ class App extends Component {
       selected_chat_room_id: undefined
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
+    this.handleOnQuitRoom = this.handleOnQuitRoom.bind(this)
   }
 
   componentWillMount() {
@@ -31,6 +32,13 @@ class App extends Component {
 
   handleOnChangeSelectedRoom(roomId) {
     this.setState({ selected_chat_room_id: roomId })
+  }
+
+  handleOnQuitRoom(roomId) {
+    console.dir(roomId)
+    this.setState({ selected_chat_room_id: undefined }, () => {
+      Meteor.call('rooms.removeUser', roomId)
+    })
   }
 
   render() {
@@ -49,7 +57,10 @@ class App extends Component {
     if(this.props.currentUser && this.props.currentUser.location) {
       roomList = <RoomList onClickChatRoom={this.handleOnChangeSelectedRoom}/>
     } else {
-      roomList = <li>Cargando ubicación ...</li>
+      roomList = <div className="loading">
+        <i className="fa fa-spinner fa-pulse fa-fw"></i>&nbsp;
+        Cargando ubicación ...
+      </div>
     }
     return (
       <div className="App">
@@ -69,7 +80,7 @@ class App extends Component {
             </ul>
         </Col>
         <Col xs={8} md={9} className="full_height chat_space" style={chatStyle}>
-        	{this.state.selected_chat_room_id ? <Chat roomId={this.state.selected_chat_room_id} /> : ''}
+        	{this.state.selected_chat_room_id ? <Chat roomId={this.state.selected_chat_room_id} handleOnQuitRoom={this.handleOnQuitRoom} /> : ''}
         </Col>
       </div>
     )
@@ -83,8 +94,14 @@ export default createContainer(() => {
   Meteor.subscribe('messages')
   Meteor.subscribe('rooms')
   Meteor.subscribe('userData')
+  Meteor.subscribe('allUserData')
+
+  var user = Meteor.user()
+  if(user && user.location && user.location.coordinates) {
+    Meteor.subscribe('allUserData', user.location.coordinates)
+  }
 
   return {
-    currentUser: Meteor.user() || undefined
+    currentUser: user || undefined
   }
 }, App)

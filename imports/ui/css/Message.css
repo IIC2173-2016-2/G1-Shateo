@@ -6,7 +6,17 @@
 }
 
 .message-user-name {
-  margin-left: 15px;
+  margin-left: 10px;
+}
+
+.messages .message.current-user-message {
+  text-align: right;
+}
+
+.messages .message.current-user-message .text-wrapper {
+  background-color: #7bc4ef;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 0px;
 }
 
 .messages .message .user-name {
@@ -15,18 +25,20 @@
   color: #c9cdd9;
 }
 .messages .message .text {
-    color: #ffffff;
+  color: #ffffff;
 }
 .messages .message .text-wrapper {
-    background-color: #62BF6E;
-    width: 100%;
-    clear: both;
-    padding: 20px;
-    border-radius: 5px;
-    min-width: 100px;
-    position: relative;
+  margin-top: 10px;
+  background-color: #62BF6E;
+  width: 100%;
+  clear: both;
+  padding: 15px;
+  border-radius: 5px;
+  min-width: 100px;
+  position: relative;
+  border-top-left-radius: 0px;
 }
 .messages .message .text-wrapper .text {
-    font-size: 18px;
-    font-weight: 300;
+  font-size: 15px;
+  font-weight: 300;
 }

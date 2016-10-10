@@ -88,7 +88,7 @@ class Chat extends Component {
               <button className="btn btn-default btn-chat-top" onClick={this.handleEditingClick}>
                 <i className="fa fa-pencil" aria-hidden="true"></i>
               </button>
-              <button className="btn btn-default btn-chat-top">
+              <button className="btn btn-default btn-chat-top" onClick={() => this.props.handleOnQuitRoom(this.props.roomId)}>
                 <i className="fa fa-sign-out" aria-hidden="true"></i>
               </button>
             </div>
@@ -129,6 +129,8 @@ class Chat extends Component {
 
 Chat.PropTypes = {
   room: React.PropTypes.object.isRequired,
+  roomId: React.PropTypes.string.isRequired,
+  handleOnQuitRoom: React.PropTypes.func.isRequired
 }
 
 export default createContainer((props) => {
