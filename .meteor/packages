@@ -26,3 +26,5 @@ useraccounts:bootstrap
 softwarerero:accounts-t9n
 msavin:mongol
 check
+aldeed:template-extension
+rajit:bootstrap3-datepicker

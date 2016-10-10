@@ -8,6 +8,21 @@ Accounts.onCreateUser(function(options, user) {
   if (options.location) {
     user.location = options.location
   }
+  if (options.name) {
+    user.name = options.name
+  }
+  if (options.birth_date) {
+    user.birth_date = options.birth_date
+  }
+  if (options.address) {
+    user.address = options.address
+  }
+  if (options.blood_type) {
+    user.blood_type = options.blood_type
+  }
+  if (options.credit_card) {
+    user.credit_card = options.credit_card
+  }
   user.rooms = []
   return user
 })

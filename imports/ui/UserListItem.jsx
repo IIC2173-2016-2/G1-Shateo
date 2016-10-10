@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import './css/UserListItem.css'
-import { createContainer } from 'meteor/react-meteor-data';
+import { createContainer } from 'meteor/react-meteor-data'
 
 class UserListItem extends Component {
   constructor(props) {
