@@ -74,8 +74,15 @@ class App extends Component {
               GeoChat
             </li>
             {
-              this.props.currentUser == undefined ?
-              <AccountsUIWrapper /> : roomList
+              (this.props.currentUser == undefined) ?
+              <AccountsUIWrapper /> :
+              <div>
+                <div className="text-center user-info">
+                  <li>{this.props.currentUser.emails[0].address}</li>
+                  <li><i className="fa fa-btc" aria-hidden="true"></i> {this.props.currentUser.arquicoins}</li>
+                </div>
+                {roomList}
+              </div>
             }
             </ul>
         </Col>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ListGroup, Button } from 'react-bootstrap'
+import { ListGroup, Button, Badge } from 'react-bootstrap'
 import Room from './Room.jsx'
 import './css/RoomList.css'
 import { Rooms } from './../api/rooms.js'
@@ -29,12 +29,15 @@ class RoomList extends Component {
   render() {
     return (
       <div className="RoomList">
+        <hr/>
         <Button className="btn-morado" block onClick={this.handleClickNewRoom}>Nuevo Chat</Button>
-        <h3>Participando ({ this.props.currentUser.rooms.length })</h3>
+        <hr/>
+        <h3>Participando <Badge>{ this.props.currentUser.rooms.length }</Badge></h3>
         <ListGroup>
           {this.props.currentUser.rooms.map((roomId) => <Room roomId={roomId} key={roomId} onClick={this.props.onClickChatRoom}/>) }
         </ListGroup>
-        <h3>Cercanos ({ this.props.nearRooms.length })</h3>
+        <hr/>
+        <h3>Cercanos <Badge>{ this.props.nearRooms.length }</Badge></h3>
         <ListGroup>
           {this.props.nearRooms.map((room) => <Room roomId={room._id} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
         </ListGroup>

@@ -24,6 +24,7 @@ Accounts.onCreateUser(function(options, user) {
     user.credit_card = options.credit_card
   }
   user.rooms = []
+  user.arquicoins = 0
   return user
 })
 

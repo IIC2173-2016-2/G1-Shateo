@@ -15,6 +15,10 @@
 	color: #ffffff;
 }
 
+.user-info {
+	font-size: 20px;
+}
+
 .loading {
 	text-align: center;
 	font-size: 20px;
@@ -31,13 +35,11 @@
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
-    line-height: 40px;
+  line-height: 40px;
 }
 
 .sidebar-nav > .sidebar-brand {
 	text-align: center;
-  margin-left: -50px;
   margin-top: 10px;
   height: 65px;
   font-size: 30px;
@@ -128,4 +130,11 @@ fieldset[disabled] .btn-morado.active {
 .btn-morado .badge {
   color: #434753;
   background-color: #ffffff;
+}
+
+
+hr {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	border-top: 0.5px solid #696C75;
 }
