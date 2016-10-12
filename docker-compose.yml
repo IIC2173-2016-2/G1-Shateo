@@ -7,11 +7,11 @@ services:
   web:
     image: danieldent/meteor
     volumes:
-      - ./:/
+      - ./:/app
     ports:
-      - "80:3000"
+      - "3000:80"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/app
+      - MONGO_URL=mongodb://mongo:27017/shateo
       - ROOT_URL=http://localhost:3000
     links:
       - mongo

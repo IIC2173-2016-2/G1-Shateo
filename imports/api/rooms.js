@@ -17,7 +17,7 @@ if (Meteor.isServer) {
             type: "Point",
             coordinates: latlng
           },
-          $maxDistance: 20000 //meters
+          $maxDistance: 2000 //meters
         }
       }
     })
