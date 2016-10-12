@@ -9,7 +9,8 @@ class RoomList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { }
+    let names = ["Tyrion","Jaime","Arya","Cersei","Daenerys","Jon Snow"]
+    this.state = { names: names }
     this.handleClickNewRoom = this.handleClickNewRoom.bind(this)
     this.handleClickGlobalRoom = this.handleClickGlobalRoom.bind(this)
   }
@@ -19,7 +20,8 @@ class RoomList extends Component {
   }
 
   handleClickNewRoom() {
-    Meteor.call('rooms.new', 'Nombre de prueba')
+    let items = this.state.names
+    Meteor.call('rooms.new', items[Math.floor(Math.random()*items.length)])
   }
 
   handleClickGlobalRoom(roomId) {
@@ -30,7 +32,12 @@ class RoomList extends Component {
     return (
       <div className="RoomList">
         <hr/>
-        <Button className="btn-morado" block onClick={this.handleClickNewRoom}>Nuevo Chat</Button>
+        <Button
+          className="btn-morado"
+          bsStyle	= "info"
+          block onClick={this.handleClickNewRoom}>
+          Nuevo Chat
+        </Button>
         <hr/>
         <h3>Participando <Badge>{ this.props.currentUser.rooms.length }</Badge></h3>
         <ListGroup>
@@ -39,7 +46,9 @@ class RoomList extends Component {
         <hr/>
         <h3>Cercanos <Badge>{ this.props.nearRooms.length }</Badge></h3>
         <ListGroup>
-          {this.props.nearRooms.map((room) => <Room roomId={room._id} key={room._id} onClick={this.handleClickGlobalRoom}/>) }
+          {this.props.nearRooms.map((room) => <Room roomId={room._id}
+                                                    key={room._id}
+                                                    onClick={this.handleClickGlobalRoom}/>) }
         </ListGroup>
       </div>
     );
