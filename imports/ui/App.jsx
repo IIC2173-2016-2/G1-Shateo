@@ -102,6 +102,7 @@ export default createContainer(() => {
   Meteor.subscribe('rooms')
   Meteor.subscribe('userData')
   Meteor.subscribe('allUserData')
+  Meteor.subscribe('userCheckIns')
 
   var user = Meteor.user()
   if(user && user.location && user.location.coordinates) {

@@ -10,14 +10,14 @@ if (Meteor.isServer) {
   })
 
   Meteor.publish('nearRooms', (latlng) => {
-    return Rooms.find({
+    return Rooms.find({ // ya esta ordenado por distancia
       location: {
         $near: {
           $geometry: {
             type: "Point",
             coordinates: latlng
           },
-          $maxDistance: 2000 //meters
+          $maxDistance: 2000 // metros
         }
       }
     })
@@ -53,6 +53,7 @@ Meteor.methods({
     })
     if(roomId) {
       Meteor.call('rooms.addUser', roomId)
+      Meteor.call('checkIns.addNew', roomId)
     }
   },
   'rooms.remove'(roomId) {
