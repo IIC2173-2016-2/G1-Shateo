@@ -7,7 +7,7 @@ services:
   web:
     image: kadirahq/meteord
     volumes:
-      - ./bundle:/bundle
+      - ./built_app/bundle:/bundle
     ports:
       - "80:80"
     environment:
