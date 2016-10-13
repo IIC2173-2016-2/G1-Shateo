@@ -18,14 +18,14 @@
 
   The geoChat was created using meteor framework and react for the frontend
 
- # Team
+# Team
 
-  | Names        | Github           |
-  | ------------- |:-------------:|
-  | Enrique Correa | [isseu](https://github.com/isseu)|
-  | Agustin Gomezz | [agomez4](https://github.com/agomez4)|
-  | Diego Passi    | [djpassi](https://github.com/djpassi)|
-  | Antonio Gil    | [afgil](https://github.com/afgil)|
-  | Benjamin Ibarra | [btibarra](https://github.com/btibarra)|
-  | Gerardo Olmos    | [GerardoOlmos](https://github.com/GerardoOlmos)|
-  | Carlos Aguirre   | [C-Aguirre017](https://github.com/C-Aguirre017)|
+| Names        | Github           |
+| ------------- |:-------------:|
+| Enrique Correa | [isseu](https://github.com/isseu)|
+| Agustin Gomezz | [agomez4](https://github.com/agomez4)|
+| Diego Passi    | [djpassi](https://github.com/djpassi)|
+| Antonio Gil    | [afgil](https://github.com/afgil)|
+| Benjamin Ibarra | [btibarra](https://github.com/btibarra)|
+| Gerardo Olmos    | [GerardoOlmos](https://github.com/GerardoOlmos)|
+| Carlos Aguirre   | [C-Aguirre017](https://github.com/C-Aguirre017)|
