@@ -19,8 +19,7 @@ class App extends Component {
     super(props);
     this.state = {
       selected_chat_room_id: undefined,
-      zoom: 11,
-      markers: []
+      zoom: 11
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
     this.handleOnQuitRoom = this.handleOnQuitRoom.bind(this)
@@ -78,9 +77,6 @@ class App extends Component {
       </div>
     }
 
-    let marker = {lat: center.lat, lng: center.lng}
-    this.state.markers.push(marker)
-
     return (
       <div className="App">
         <Col xs={4} md={3} className="full_height sidebar-wrapper">
@@ -117,9 +113,9 @@ class App extends Component {
                                                       loadingMessage={'Loading Map...'}
                                                       params={{v: '3.exp', key: 'AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo'}}
                                                       onMapCreated={this.onMapCreated}>
-                                                      {this.state.markers.map((marker) =>  <Marker
-                                                                                              lat={marker.lat}
-                                                                                              lng={marker.lng}
+                                                      {this.props.nearRooms.map((marker) =>  <Marker
+                                                                                              lat={marker.location.coordinates[0]}
+                                                                                              lng={marker.location.coordinates[1]}
                                                                                               draggable={false}/>) }
                                                     </Gmaps> }
         </Col>
@@ -144,6 +140,7 @@ export default createContainer(() => {
   }
 
   return {
-    currentUser: user || undefined
+    currentUser: user || undefined,
+    nearRooms: Rooms.find({}).fetch()
   }
 }, App)
