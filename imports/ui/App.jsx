@@ -26,7 +26,7 @@ class App extends Component {
             position.coords.latitude, position.coords.longitude,
             (errorCode) => this.forceUpdate()
           )
-        }, (errorCode) => alert(errorCode) )
+        }, (errorCode) => console.dir(errorCode) )
     }
   }
 
@@ -74,15 +74,14 @@ class App extends Component {
               GeoChat
             </li>
             {
-              (this.props.currentUser == undefined) ?
-              <AccountsUIWrapper /> :
+              (this.props.currentUser) ?
               <div>
                 <div className="text-center user-info">
                   <li>{this.props.currentUser.emails[0].address}</li>
                   <li><i className="fa fa-btc" aria-hidden="true"></i> {this.props.currentUser.arquicoins}</li>
                 </div>
                 {roomList}
-              </div>
+              </div> : <AccountsUIWrapper />
             }
             </ul>
         </Col>
