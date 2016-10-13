@@ -1,19 +1,25 @@
 import React, { Component, PropTypes } from 'react'
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap'
-import RoomList from './RoomList.jsx'
-import Chat from './Chat.jsx'
-import './css/App.css'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Rooms } from '../api/rooms.js'
+import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps'
+
+
 import Room from './Room.jsx'
+import RoomList from './RoomList.jsx'
+import Chat from './Chat.jsx'
+
 import AccountsUIWrapper from './AccountsUIWrapper.jsx'
 import { Meteor } from 'meteor/meteor'
+import './css/App.css'
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      selected_chat_room_id: undefined
+      selected_chat_room_id: undefined,
+      zoom: 11
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
     this.handleOnQuitRoom = this.handleOnQuitRoom.bind(this)
@@ -30,6 +36,12 @@ class App extends Component {
     }
   }
 
+  onMapCreated(map) {
+   map.setOptions({
+     disableDefaultUI: true
+   });
+  }
+
   handleOnChangeSelectedRoom(roomId) {
     this.setState({ selected_chat_room_id: roomId })
   }
@@ -42,18 +54,20 @@ class App extends Component {
   }
 
   render() {
-    var tooltip = <Tooltip id="tooltip"></Tooltip>
+    let tooltip = <Tooltip id="tooltip"></Tooltip>
+    let center =  {lat: -33.4724727, lng: -70.9100295}
     if(this.props.currentUser && this.props.currentUser.location) {
        tooltip = <Tooltip id="tooltip">Lat: {this.props.currentUser.location.coordinates[0].toFixed(2)} Lng: {this.props.currentUser.location.coordinates[1].toFixed(2)}</Tooltip>
+       center = {lat: this.props.currentUser.location.coordinates[0], lng: this.props.currentUser.location.coordinates[1]}
     }
-    var chatStyle = { }
+    let chatStyle = { }
     if(this.props.currentUser && this.props.currentUser.location) {
-      var latLng = this.props.currentUser.location.coordinates[0] + "," + this.props.currentUser.location.coordinates[1]
+      let latLng = this.props.currentUser.location.coordinates[0] + "," + this.props.currentUser.location.coordinates[1]
       chatStyle = {
         backgroundImage: "url('https://maps.googleapis.com/maps/api/staticmap?center=" + latLng + "&size=512x512&zoom=11&scale=2&maptype=satellite&markers=color:blue||" + latLng + "')"
       }
     }
-    var roomList
+    let roomList
     if(this.props.currentUser && this.props.currentUser.location) {
       roomList = <RoomList onClickChatRoom={this.handleOnChangeSelectedRoom}/>
     } else {
@@ -62,6 +76,7 @@ class App extends Component {
         Cargando ubicación ...
       </div>
     }
+
     return (
       <div className="App">
         <Col xs={4} md={3} className="full_height sidebar-wrapper">
@@ -85,8 +100,23 @@ class App extends Component {
             }
             </ul>
         </Col>
-        <Col xs={8} md={9} className="full_height chat_space" style={chatStyle}>
-        	{this.state.selected_chat_room_id ? <Chat roomId={this.state.selected_chat_room_id} handleOnQuitRoom={this.handleOnQuitRoom} /> : ''}
+        <Col xs={8} md={9} className="full_height chat_space">
+        	{this.state.selected_chat_room_id ? <Chat roomId={this.state.selected_chat_room_id}
+                                                    handleOnQuitRoom={this.handleOnQuitRoom} /> :
+                                                    <Gmaps
+                                                      width={'100%'}
+                                                      height={'100%'}
+                                                      lat={center.lat}
+                                                      lng={center.lng}
+                                                      zoom={this.state.zoom}
+                                                      loadingMessage={'Loading Map...'}
+                                                      params={{v: '3.exp', key: 'AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo'}}
+                                                      onMapCreated={this.onMapCreated}>
+                                                      {this.props.nearRooms.map((marker) =>  <Marker
+                                                                                              lat={marker.location.coordinates[0]}
+                                                                                              lng={marker.location.coordinates[1]}
+                                                                                              draggable={false}/>) }
+                                                    </Gmaps> }
         </Col>
       </div>
     )
@@ -103,12 +133,13 @@ export default createContainer(() => {
   Meteor.subscribe('allUserData')
   Meteor.subscribe('userCheckIns')
 
-  var user = Meteor.user()
+  let user = Meteor.user()
   if(user && user.location && user.location.coordinates) {
     Meteor.subscribe('allUserData', user.location.coordinates)
   }
 
   return {
-    currentUser: user || undefined
+    currentUser: user || undefined,
+    nearRooms: Rooms.find({}).fetch()
   }
 }, App)
