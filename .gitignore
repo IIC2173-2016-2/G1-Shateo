@@ -1,5 +1,8 @@
 node_modules/
 
+mup.json
+ssl/
+
 # Created by https://www.gitignore.io/api/osx,meteorjs
 
 ### OSX ###

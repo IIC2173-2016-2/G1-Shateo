@@ -5,13 +5,12 @@ services:
     ports:
     - "27017"
   web:
-    image: danieldent/meteor
-    volumes:
-      - ./:/app
+    image: kadirahq/meteord
     ports:
-      - "3000:80"
+      - "80:80"
     environment:
       - MONGO_URL=mongodb://mongo:27017/shateo
-      - ROOT_URL=http://localhost:3000
+      - ROOT_URL=http://localhost:80
+      - BUNDLE_URL=https://github.com/isseu/shateo/tree/master/bundle/shateo.tar.gz
     links:
       - mongo
