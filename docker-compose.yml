@@ -4,14 +4,13 @@ services:
     image: mongo
     ports:
     - "27017"
-  web:
-    image: kadirahq/meteord
-    volumes:
-      - ./built_app/bundle:/bundle
+  app:
+    build: .
     ports:
-      - "80:80"
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/shateo
-      - ROOT_URL=http://localhost:80
+        - "3000:3000"
     links:
-      - mongo
+        - database
+    volumes:
+        - "./:/src"
+    environment:
+    - MONGO_URL=mongodb://database:27017/meteor
