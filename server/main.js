@@ -33,6 +33,14 @@ Meteor.startup(() => {
   // code to run on server at startup
   Rooms._ensureIndex({ location : '2dsphere' })
 
+  SSLProxy({
+     port: 3000, //or 443 (normal port/requires sudo)
+     ssl : {
+        key: Assets.getText("fullchain.pem"),
+        cert: Assets.getText("privkey.pem"),
+     }
+  })
+
   Meteor.setInterval(() => {
     CheckIns.find({
         valid: true,
