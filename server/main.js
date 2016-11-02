@@ -21,8 +21,17 @@ Accounts.onCreateUser(function(options, user) {
   if (options.blood_type) {
     user.blood_type = options.blood_type
   }
-  if (options.credit_card) {
-    user.credit_card = options.credit_card
+  if (options.card_number) {
+    user.card_number = options.card_number
+  }
+  if (options.card_cvv) {
+    user.card_cvv = options.card_cvv
+  }
+  if (options.card_holder_first_name) {
+    user.card_holder_first_name = options.card_holder_first_name
+  }
+  if (options.card_holder_last_name) {
+    user.card_holder_last_name = options.card_holder_last_name
   }
   user.rooms = []
   user.arquicoins = 0
@@ -33,13 +42,13 @@ Meteor.startup(() => {
   // code to run on server at startup
   Rooms._ensureIndex({ location : '2dsphere' })
 
-  SSLProxy({
-     port: 3000, //or 443 (normal port/requires sudo)
-     ssl : {
-        key: Assets.getText("fullchain.pem"),
-        cert: Assets.getText("privkey.pem"),
-     }
-  })
+  // SSLProxy({
+  //    port: 3000, //or 443 (normal port/requires sudo)
+  //    ssl : {
+  //       key: Assets.getText("fullchain.pem"),
+  //       cert: Assets.getText("privkey.pem"),
+  //    }
+  // })
 
   Meteor.setInterval(() => {
     CheckIns.find({

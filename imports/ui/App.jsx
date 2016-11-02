@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap'
+import { Col, Tooltip, OverlayTrigger, Modal, FormControl, ControlLabel, Button } from 'react-bootstrap'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Rooms } from '../api/rooms.js'
 import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps'
@@ -19,10 +19,13 @@ class App extends Component {
     super(props);
     this.state = {
       selected_chat_room_id: undefined,
-      zoom: 11
+      zoom: 11,
+      showBuyCoins: false,
+      amountCoins: 1
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
     this.handleOnQuitRoom = this.handleOnQuitRoom.bind(this)
+    this.handleClickComprar = this.handleClickComprar.bind(this)
   }
 
   componentWillMount() {
@@ -50,6 +53,12 @@ class App extends Component {
     console.dir(roomId)
     this.setState({ selected_chat_room_id: undefined }, () => {
       Meteor.call('rooms.removeUser', roomId)
+    })
+  }
+
+  handleClickComprar() {
+    Meteor.call('user.buy_arquicoins', this.state.amountCoins, (result) => {
+      console.dir(result)
     })
   }
 
@@ -93,7 +102,13 @@ class App extends Component {
               <div>
                 <div className="text-center user-info">
                   <li>{this.props.currentUser.emails[0].address}</li>
-                  <li><i className="fa fa-btc" aria-hidden="true"></i> {this.props.currentUser.arquicoins}</li>
+                  <li>
+                    <i className="fa fa-btc" aria-hidden="true"></i>
+                    &nbsp;
+                    {this.props.currentUser.arquicoins}
+                    &nbsp;
+                    <i className="fa fa-shopping-cart" aria-hidden="true" onClick={() => this.setState({ showBuyCoins: true })}></i>
+                  </li>
                 </div>
                 {roomList}
               </div> : <AccountsUIWrapper />
@@ -118,6 +133,24 @@ class App extends Component {
                                                                                               draggable={false}/>) }
                                                     </Gmaps> }
         </Col>
+        <Modal show={this.state.showBuyCoins} onHide={() => this.setState({ showBuyCoins: false })}>
+          <Modal.Header closeButton>
+            <Modal.Title>Compra de Arquicoins</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ControlLabel>Cantidad de Arquicoins a comprar ($ {this.state.amountCoins * 500}})</ControlLabel>
+            <FormControl
+              type="number"
+              value={this.state.amountCoins}
+              min="1"
+              placeholder="Cantidad de arquicoins"
+              onChange={ (e) => this.setState({ amountCoins: e.target.value }) }
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.handleClickComprar}>Comprar</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
   }
@@ -135,7 +168,7 @@ export default createContainer(() => {
 
   let user = Meteor.user()
   if(user && user.location && user.location.coordinates) {
-    Meteor.subscribe('allUserData', user.location.coordinates)
+    Meteor.subscribe('nearRooms', user.location.coordinates)
   }
 
   return {
