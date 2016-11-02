@@ -9,7 +9,7 @@ class RoomList extends Component {
 
   constructor(props) {
     super(props);
-    let names = ["Tyrion","Jaime","Arya","Cersei","Daenerys","Jon Snow"]
+    let names = ["Tyrion", "Jaime", "Arya", "Cersei", "Daenerys", "Jon Snow"]
     this.state = { names: names }
     this.handleClickNewRoom = this.handleClickNewRoom.bind(this)
     this.handleClickGlobalRoom = this.handleClickGlobalRoom.bind(this)

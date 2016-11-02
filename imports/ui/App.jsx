@@ -29,14 +29,16 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          Meteor.call('users.update_location',
-            position.coords.latitude, position.coords.longitude,
-            (errorCode) => this.forceUpdate()
-          )
-        }, (errorCode) => console.dir(errorCode) )
-    }
+    Accounts.onLogin(() => {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            Meteor.call('users.update_location',
+              position.coords.latitude, position.coords.longitude,
+              (errorCode) => this.forceUpdate()
+            )
+          }, (errorCode) => console.dir(errorCode) )
+      }
+    })
   }
 
   onMapCreated(map) {
@@ -56,7 +58,8 @@ class App extends Component {
     })
   }
 
-  handleClickComprar() {
+  handleClickComprar(e) {
+    e.preventDefault()
     Meteor.call('user.buy_arquicoins', this.state.amountCoins, (result) => {
       console.dir(result)
     })
@@ -67,7 +70,7 @@ class App extends Component {
     let center =  {lat: -33.4724727, lng: -70.9100295}
     if(this.props.currentUser && this.props.currentUser.location) {
        tooltip = <Tooltip id="tooltip">Lat: {this.props.currentUser.location.coordinates[0].toFixed(2)} Lng: {this.props.currentUser.location.coordinates[1].toFixed(2)}</Tooltip>
-       center = {lat: this.props.currentUser.location.coordinates[0], lng: this.props.currentUser.location.coordinates[1]}
+       center = { lat: this.props.currentUser.location.coordinates[0], lng: this.props.currentUser.location.coordinates[1] }
     }
     let chatStyle = { }
     if(this.props.currentUser && this.props.currentUser.location) {
@@ -138,7 +141,7 @@ class App extends Component {
             <Modal.Title>Compra de Arquicoins</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <ControlLabel>Cantidad de Arquicoins a comprar ($ {this.state.amountCoins * 500}})</ControlLabel>
+            <ControlLabel>Cantidad de Arquicoins a comprar ($ {this.state.amountCoins * 500})</ControlLabel>
             <FormControl
               type="number"
               value={this.state.amountCoins}

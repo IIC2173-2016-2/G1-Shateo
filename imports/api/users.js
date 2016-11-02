@@ -24,16 +24,17 @@ if (Meteor.isServer) {
     check(amount, Number)
     import { Client } from 'node-rest-client'
     var client = new Client()
+    var user = Meteor.users.findOne(this.userId)
     client.post("https://alquitran.ing.puc.cl/transactions",
     {
       data: {
           "application_token": "3b8c6c31-a583-41c8-8da6-ce7961acff40",
           "kredit_card": {
-              "card_number": "523432-42352-1983",
-              "card_cvv": 345,
+              "card_number": user.card_number,
+              "card_cvv": user.card_cvv,
               "card_holder": {
-                  "first_name": "Eduardo",
-                  "last_name": "McEduardo"
+                  "first_name": user.card_holder_first_name,
+                  "last_name": user.card_holder_last_name
               }
           },
           "to_charge": {
@@ -46,15 +47,24 @@ if (Meteor.isServer) {
       if(response.statusCode != 200) {
         return "Hubo error"
       }
+      // Aumentamos a usuario
+      Meteor.users.update(this.userId, {
+        $inc: { arquicoins: amount }
+      })
+      // Si todo bien
       client.get("https://alquitran.ing.puc.cl/transactions/id?application_token=3b8c6c31-a583-41c8-8da6-ce7961acff40",
       {
         headers: { "Content-Type": "application/json" }
       },
       (data, response) => {
-          // parsed response body as js object
-          console.dir(data);
-          // raw response
-          console.dir(response);
+        if(response.statusCode != 200) {
+          return "Hubo error"
+        }
+
+        // parsed response body as js object
+        console.dir(data);
+        // raw response
+        console.dir(response);
       })
     })
     // Response Body 200 or 404

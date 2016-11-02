@@ -5,33 +5,31 @@ import { Rooms } from '../imports/api/rooms.js'
 import { CheckIns } from '../imports/api/checkins.js'
 import '../imports/api/users.js'
 
-Accounts.onCreateUser(function(options, user) {
-  if (options.location) {
-    user.location = options.location
+Accounts.onCreateUser((options, user) => {
+  console.dir(options)
+  if (options.profile.name) {
+    user.name = options.profile.name
   }
-  if (options.name) {
-    user.name = options.name
+  if (options.profile.birth_date) {
+    user.birth_date = options.profile.birth_date
   }
-  if (options.birth_date) {
-    user.birth_date = options.birth_date
+  if (options.profile.address) {
+    user.address = options.profile.address
   }
-  if (options.address) {
-    user.address = options.address
+  if (options.profile.blood_type) {
+    user.blood_type = options.profile.blood_type
   }
-  if (options.blood_type) {
-    user.blood_type = options.blood_type
+  if (options.profile.card_number) {
+    user.card_number = options.profile.card_number
   }
-  if (options.card_number) {
-    user.card_number = options.card_number
+  if (options.profile.card_cvv) {
+    user.card_cvv = options.profile.card_cvv
   }
-  if (options.card_cvv) {
-    user.card_cvv = options.card_cvv
+  if (options.profile.card_holder_first_name) {
+    user.card_holder_first_name = options.profile.card_holder_first_name
   }
-  if (options.card_holder_first_name) {
-    user.card_holder_first_name = options.card_holder_first_name
-  }
-  if (options.card_holder_last_name) {
-    user.card_holder_last_name = options.card_holder_last_name
+  if (options.profile.card_holder_last_name) {
+    user.card_holder_last_name = options.profile.card_holder_last_name
   }
   user.rooms = []
   user.arquicoins = 0
