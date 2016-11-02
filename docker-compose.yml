@@ -13,7 +13,6 @@ services:
     environment:
       - MONGO_URL=mongodb://mongo:27017/app
       - ROOT_URL=http://localhost:3000
-      - METEOR_PROFILE=100
       - METEOR_DEBUG_BUILD=1
     links:
       - mongo
