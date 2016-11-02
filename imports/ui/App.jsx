@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { Col, Tooltip, OverlayTrigger, Modal, FormControl, ControlLabel, Button } from 'react-bootstrap'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Rooms } from '../api/rooms.js'
-import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps'
-
-
+import { Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps'
 import Room from './Room.jsx'
 import RoomList from './RoomList.jsx'
 import Chat from './Chat.jsx'
@@ -31,12 +29,12 @@ class App extends Component {
   componentWillMount() {
     Accounts.onLogin(() => {
       if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            Meteor.call('users.update_location',
-              position.coords.latitude, position.coords.longitude,
-              (errorCode) => this.forceUpdate()
-            )
-          }, (errorCode) => console.dir(errorCode) )
+        navigator.geolocation.getCurrentPosition((position) => {
+          Meteor.call('users.update_location',
+            position.coords.latitude, position.coords.longitude,
+            (errorCode) => this.forceUpdate()
+          )
+        }, (errorCode) => console.dir(errorCode) )
       }
     })
   }
@@ -61,7 +59,7 @@ class App extends Component {
   handleClickComprar(e) {
     e.preventDefault()
     Meteor.call('user.buy_arquicoins', this.state.amountCoins, (result) => {
-      console.dir(result)
+      this.setState({ showBuyCoins: false })
     })
   }
 
@@ -133,6 +131,7 @@ class App extends Component {
                                                       {this.props.nearRooms.map((marker) =>  <Marker
                                                                                               lat={marker.location.coordinates[0]}
                                                                                               lng={marker.location.coordinates[1]}
+                                                                                              key={marker._id}
                                                                                               draggable={false}/>) }
                                                     </Gmaps> }
         </Col>
@@ -147,7 +146,7 @@ class App extends Component {
               value={this.state.amountCoins}
               min="1"
               placeholder="Cantidad de arquicoins"
-              onChange={ (e) => this.setState({ amountCoins: e.target.value }) }
+              onChange={ (e) => this.setState({ amountCoins: parseInt(e.target.value) }) }
             />
           </Modal.Body>
           <Modal.Footer>

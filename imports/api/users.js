@@ -21,11 +21,12 @@ if (Meteor.isServer) {
   })
   Meteor.methods({
   'user.buy_arquicoins'(amount) {
+    console.dir("Compra de " + amount)
     check(amount, Number)
     import { Client } from 'node-rest-client'
     var client = new Client()
     var user = Meteor.users.findOne(this.userId)
-    client.post("https://alquitran.ing.puc.cl/transactions",
+    client.post("https://alquitran.ing.puc.cl/transactions/",
     {
       data: {
           "application_token": "3b8c6c31-a583-41c8-8da6-ce7961acff40",
@@ -43,30 +44,34 @@ if (Meteor.isServer) {
           }
       },
       headers: { "Content-Type": "application/json" }
-    } , (data, response) => {
-      if(response.statusCode != 200) {
-        return "Hubo error"
+    }, Meteor.bindEnvironment((data, response) => {
+      if(response.statusCode != 201) {
+        console.dir("Tarjeta invalida")
+        return
       }
       // Aumentamos a usuario
       Meteor.users.update(this.userId, {
         $inc: { arquicoins: amount }
       })
-      // Si todo bien
-      client.get("https://alquitran.ing.puc.cl/transactions/id?application_token=3b8c6c31-a583-41c8-8da6-ce7961acff40",
-      {
-        headers: { "Content-Type": "application/json" }
-      },
-      (data, response) => {
-        if(response.statusCode != 200) {
-          return "Hubo error"
-        }
-
-        // parsed response body as js object
-        console.dir(data);
-        // raw response
-        console.dir(response);
+      Meteor.users.update(this.userId, {
+        $addToSet: { transactions: data }
       })
-    })
+    }))
+    // Si todo bien
+    // client.get("https://alquitran.ing.puc.cl/transactions/id/?application_token=3b8c6c31-a583-41c8-8da6-ce7961acff40",
+    // {
+    //   headers: { "Content-Type": "application/json" }
+    // },
+    // (data, response) => {
+    //   if(response.statusCode != 200) {
+    //     return "Hubo error"
+    //   }
+    //
+    //   // parsed response body as js object
+    //   console.dir(data);
+    //   // raw response
+    //   console.dir(response);
+    // })
     // Response Body 200 or 404
     // {
     //   "status": {
@@ -104,7 +109,7 @@ Meteor.methods({
         location: {
             type: 'Point',
             coordinates: [latitude, longitude]
-         },
+         }
       }
     })
   }

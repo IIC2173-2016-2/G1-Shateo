@@ -6,7 +6,6 @@ import { CheckIns } from '../imports/api/checkins.js'
 import '../imports/api/users.js'
 
 Accounts.onCreateUser((options, user) => {
-  console.dir(options)
   if (options.profile.name) {
     user.name = options.profile.name
   }
@@ -32,6 +31,7 @@ Accounts.onCreateUser((options, user) => {
     user.card_holder_last_name = options.profile.card_holder_last_name
   }
   user.rooms = []
+  user.transactions = []
   user.arquicoins = 0
   return user
 })
