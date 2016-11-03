@@ -1,0 +1,6 @@
+config = {"_id" : "bigdaddy","members" : [{"_id" : 0,"host" : "http://assw1.ing.puc.cl:27017"},{"_id" : 1,"host" : "http://assw3.ing.puc.cl:27017"}]}
+
+Server1 = 146.155.13.121
+Server2 = 146.155.13.122
+Server3 = 146.155.13.123
+Server4 = 146.155.13.124
