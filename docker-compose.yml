@@ -3,7 +3,7 @@ services:
   mongo:
     image: mongo
     ports:
-      - "27017"
+      - "27017:27017"
     command: mongod --smallfiles --replSet bigdaddy
   web:
     image: danieldent/meteor
