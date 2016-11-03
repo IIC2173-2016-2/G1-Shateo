@@ -37,6 +37,7 @@ AccountsTemplates.addFields([
     {
         _id: 'blood_type',
         type: 'select',
+        displayName: 'Tipo de sangre',
         select: [
           {
             text: 'A',
@@ -58,12 +59,32 @@ AccountsTemplates.addFields([
         required: true
     },
     {
-        _id: 'credit_card',
+        _id: 'card_number',
         type: 'text',
-        displayName: 'Tarjeta de credito',
-        placeholder: 'XXXXXXXX-XX',
-        required: true,
-        uppercase: true
+        displayName: 'Numero de tarjeta de credito',
+        placeholder: '523432-42352-1983',
+        required: true
+    },
+    {
+        _id: 'card_cvv',
+        type: 'text',
+        displayName: 'CVV Tarjeta de credito',
+        placeholder: '555',
+        required: true
+    },
+    {
+        _id: 'card_holder_first_name',
+        type: 'text',
+        displayName: 'Primer nombre tarjeta de credito',
+        placeholder: 'Nombre',
+        required: true
+    },
+    {
+        _id: 'card_holder_last_name',
+        type: 'text',
+        displayName: 'Apellido tarjeta de credito',
+        placeholder: 'Apellido',
+        required: true
     }
 ])
 
