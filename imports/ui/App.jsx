@@ -36,6 +36,7 @@ class App extends Component {
           )
         }, (errorCode) => console.dir(errorCode) )
       }
+      this.setState({})
     })
   }
 
@@ -109,6 +110,8 @@ class App extends Component {
                     {this.props.currentUser.arquicoins}
                     &nbsp;
                     <i className="fa fa-shopping-cart" aria-hidden="true" onClick={() => this.setState({ showBuyCoins: true })}></i>
+                    &nbsp;
+                    <i className="fa fa-sign-out" aria-hidden="true" onClick={() => Meteor.logout()}></i>
                   </li>
                 </div>
                 {roomList}
