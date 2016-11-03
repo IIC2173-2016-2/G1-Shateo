@@ -12,7 +12,7 @@ services:
     ports:
       - "80:3000"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/app
+      - MONGO_URL=mongodb://assw1.ing.puc.cl:27017,assw2.ing.puc.cl:27017,assw3.ing.puc.cl:27017,assw4.ing.puc.cl:27017/app?replicaSet=bigdaddy
       - ROOT_URL=http://localhost:3000
       - METEOR_DEBUG_BUILD=1
     links:
