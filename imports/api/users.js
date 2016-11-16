@@ -127,7 +127,7 @@ Meteor.methods({
       $inc: { arquicoins: 1 }
     })
     Meteor.users.update(this.userId, {
-      $inc: { arquicoins: 1 }
+      $inc: { arquicoins: -1 }
     })
   }
 })
