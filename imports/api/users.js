@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
+import { Client } from 'node-rest-client'
 
 if (Meteor.isServer) {
   Meteor.publish('userData', function () {
@@ -23,40 +24,49 @@ if (Meteor.isServer) {
   'user.buy_arquicoins'(amount) {
     console.dir("Compra de " + amount)
     check(amount, Number)
-    import { Client } from 'node-rest-client'
     var client = new Client()
     var user = Meteor.users.findOne(this.userId)
-    client.post("https://alquitran.ing.puc.cl/transactions/",
-    {
-      data: {
-          "application_token": "3b8c6c31-a583-41c8-8da6-ce7961acff40",
-          "kredit_card": {
-              "card_number": user.card_number,
-              "card_cvv": user.card_cvv,
-              "card_holder": {
-                  "first_name": user.card_holder_first_name,
-                  "last_name": user.card_holder_last_name
-              }
-          },
-          "to_charge": {
-              "currency": "CLP",
-              "amount": amount
-          }
+    Future = Npm.require('fibers/future')
+    var future = new Future();
+    console.dir("enviando")
+    client.post(
+      "https://alquitran.ing.puc.cl/transactions/",
+      {
+        data: {
+            "application_token": "3b8c6c31-a583-41c8-8da6-ce7961acff40",
+            "kredit_card": {
+                "card_number": user.card_number,
+                "card_cvv": user.card_cvv,
+                "card_holder": {
+                    "first_name": user.card_holder_first_name,
+                    "last_name": user.card_holder_last_name
+                }
+            },
+            "to_charge": {
+                "currency": "CLP",
+                "amount": amount
+            }
+        },
+        headers: { "Content-Type": "application/json" }
       },
-      headers: { "Content-Type": "application/json" }
-    }, Meteor.bindEnvironment((data, response) => {
-      if(response.statusCode != 201) {
-        console.dir("Tarjeta invalida")
-        return
-      }
-      // Aumentamos a usuario
-      Meteor.users.update(this.userId, {
-        $inc: { arquicoins: amount }
+      Meteor.bindEnvironment((data, response) => {
+        console.dir("lol")
+        if(response.statusCode != 201) {
+          future.throw(new Meteor.Error( 400, "La Tarjeta de credito ingresada es invalida" ))
+          return
+        }
+        // Aumentamos a usuario
+        Meteor.users.update(this.userId, {
+          $inc: { arquicoins: amount }
+        })
+        Meteor.users.update(this.userId, {
+          $addToSet: { transactions: data }
+        })
+        future.return(data)
       })
-      Meteor.users.update(this.userId, {
-        $addToSet: { transactions: data }
-      })
-    }))
+    )
+    return future.wait()
+  }
     // Si todo bien
     // client.get("https://alquitran.ing.puc.cl/transactions/id/?application_token=3b8c6c31-a583-41c8-8da6-ce7961acff40",
     // {
@@ -90,7 +100,6 @@ if (Meteor.isServer) {
     //     "description": "Transaction validated and executed"
     //   }
     // }
-  }
   })
 }
 
@@ -111,6 +120,14 @@ Meteor.methods({
             coordinates: [latitude, longitude]
          }
       }
+    })
+  },
+  'users.enviar_arquicoins'(otherUserId) {
+    Meteor.users.update(this.otherUserId, {
+      $inc: { arquicoins: 1 }
+    })
+    Meteor.users.update(this.userId, {
+      $inc: { arquicoins: 1 }
     })
   }
 })

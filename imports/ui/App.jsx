@@ -19,7 +19,8 @@ class App extends Component {
       selected_chat_room_id: undefined,
       zoom: 11,
       showBuyCoins: false,
-      amountCoins: 1
+      amountCoins: 1,
+      coinsBuyMessage: ''
     }
     this.handleOnChangeSelectedRoom = this.handleOnChangeSelectedRoom.bind(this)
     this.handleOnQuitRoom = this.handleOnQuitRoom.bind(this)
@@ -59,8 +60,12 @@ class App extends Component {
 
   handleClickComprar(e) {
     e.preventDefault()
-    Meteor.call('user.buy_arquicoins', this.state.amountCoins, (result) => {
-      this.setState({ showBuyCoins: false })
+    Meteor.call('user.buy_arquicoins', this.state.amountCoins, (error, response) => {
+      if(error) {
+        this.setState({ coinsBuyMessage: error.reason })
+      } else {
+        this.setState({ coinsBuyMessage: 'Compra de arquicoins realizada con exito!' })
+      }
     })
   }
 
@@ -109,7 +114,7 @@ class App extends Component {
                     &nbsp;
                     {this.props.currentUser.arquicoins}
                     &nbsp;
-                    <i className="fa fa-shopping-cart" aria-hidden="true" onClick={() => this.setState({ showBuyCoins: true })}></i>
+                    <i className="fa fa-shopping-cart" aria-hidden="true" onClick={() => this.setState({ showBuyCoins: true, coinsBuyMessage: '' })}></i>
                     &nbsp;
                     <i className="fa fa-sign-out" aria-hidden="true" onClick={() => Meteor.logout()}></i>
                   </li>
@@ -151,6 +156,7 @@ class App extends Component {
               placeholder="Cantidad de arquicoins"
               onChange={ (e) => this.setState({ amountCoins: parseInt(e.target.value) }) }
             />
+            {this.state.coinsBuyMessage}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleClickComprar}>Comprar</Button>
