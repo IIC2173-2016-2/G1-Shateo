@@ -123,14 +123,14 @@ Meteor.methods({
     })
   },
   'users.enviar_arquicoins'(otherUserId) {
+    var user = Meteor.user(this.userId)
+    if(user.arquicoins <= 0) {
+      return
+    }
     Meteor.users.update(this.otherUserId, {
       $inc: { arquicoins: 1 }
     })
-    Meteor.users.update(
-      {
-        _id: this.userId,
-        arquicoins : { $gt : 0 }
-      }, {
+    Meteor.users.update(this.userId, {
       $inc: { arquicoins: -1 }
     })
   }
